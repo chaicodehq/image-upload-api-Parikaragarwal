@@ -1,0 +1,76 @@
+
+> image-upload-api@1.0.0 test
+> NODE_OPTIONS=--experimental-vm-modules jest --runInBand
+
+(node:724564) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS tests/visible/05-download.spec.js
+  Test 5: Download Images
+    GET /api/images/:id/download
+      ✓ should download original image (85 ms)
+      ✓ should set Content-Disposition header (18 ms)
+      ✓ should return 404 when image not found (10 ms)
+      ✓ should return 400 for invalid ObjectId (4 ms)
+      ✓ should return 404 when file missing from disk (8 ms)
+    GET /api/images/:id/thumbnail
+      ✓ should download thumbnail (16 ms)
+      ✓ should return thumbnail smaller than original (17 ms)
+      ✓ should return 404 when image not found (5 ms)
+    GET /api/images/:id
+      ✓ should get image metadata (14 ms)
+      ✓ should return 404 when image not found (5 ms)
+
+PASS tests/visible/06-delete.spec.js
+  Test 6: Delete Images
+    DELETE /api/images/:id
+      ✓ should delete image successfully (62 ms)
+      ✓ should return 404 when image not found (7 ms)
+      ✓ should return 400 for invalid ObjectId (3 ms)
+      ✓ should delete metadata even if files are missing (11 ms)
+      ✓ should not list deleted images (21 ms)
+      ✓ should not allow download after deletion (16 ms)
+      ✓ should delete both original and thumbnail files (14 ms)
+
+PASS tests/visible/04-list.spec.js
+  Test 4: List Images
+    GET /api/images
+      ✓ should return empty array when no images (40 ms)
+      ✓ should return all images with pagination meta (58 ms)
+      ✓ should support pagination with page parameter (204 ms)
+      ✓ should support pagination with limit parameter (82 ms)
+      ✓ should filter by mimetype (13 ms)
+      ✓ should search in originalName and description (12 ms)
+      ✓ should sort by size ascending (11 ms)
+      ✓ should sort by uploadDate descending by default (11 ms)
+
+PASS tests/visible/03-upload.spec.js
+  Test 3: Image Upload
+    POST /api/images
+      ✓ should upload JPEG successfully (55 ms)
+      ✓ should upload PNG successfully (10 ms)
+      ✓ should upload GIF successfully (10 ms)
+      ✓ should reject invalid file types (5 ms)
+      ✓ should reject files over 5MB (31 ms)
+      ✓ should reject request with no file (3 ms)
+      ✓ should save optional description and tags (10 ms)
+      ✓ should extract image dimensions (9 ms)
+      ✓ should create thumbnail smaller than original (9 ms)
+      ✓ should follow thumbnail naming convention (9 ms)
+
+PASS tests/visible/02-connect.spec.js
+  Test 2: Database Connection
+    connectDB
+      ✓ should connect to MongoDB with valid URI (641 ms)
+      ✓ should throw error when URI is not provided (2 ms)
+      ✓ should throw error when URI is empty string (1 ms)
+
+PASS tests/visible/01-health.spec.js
+  Test 1: Health Check
+    GET /health
+      ✓ should return 200 with ok: true (7 ms)
+
+Test Suites: 6 passed, 6 total
+Tests:       39 passed, 39 total
+Snapshots:   0 total
+Time:        7.05 s
+Ran all test suites.

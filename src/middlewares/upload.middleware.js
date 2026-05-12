@@ -33,3 +33,30 @@ import { fileURLToPath } from 'url';
  */
 
 // Your code here
+ const __dirname = path.dirname(fileURLToPath(import.meta.url));
+ const UPLOAD_DIR = path.join(__dirname, '../../uploads');
+ const allowedTypes = new Set(['image/jpeg', 'image/png', 'image/gif']);
+
+ const storage = multer.diskStorage({
+    destination:(req,file,cb)=>{
+        cb(null,UPLOAD_DIR);
+    },
+    filename:(req,file,cb)=>{
+        const timestamp = Date.now();
+        const random = crypto.randomBytes(4).toString('hex');
+        const filename = `${timestamp}-${random}${path.extname(file.originalname).toLowerCase()}`;
+        cb(null,filename);
+    }
+ });
+
+ const fileFilter = (req, file, cb) => {
+    if(allowedTypes.has(file.mimetype)){
+        cb(null,true);
+    }else{
+        cb(new Error('Invalid file type. Only JPEG, PNG, and GIF are allowed.'),false);
+    }
+ };
+
+ export const upload = multer({ storage, fileFilter, limits: { 
+    fileSize: 1024*1024*5,
+  } });
